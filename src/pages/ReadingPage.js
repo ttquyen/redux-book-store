@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Button,
@@ -20,9 +20,9 @@ import {
 const BACKEND_API = process.env.REACT_APP_BACKEND_API;
 
 const ReadingPage = () => {
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const bookStore = useSelector((state) => state.bookStore);
+  const { favorites, status } = bookStore;
   const dispatch = useDispatch();
 
   const handleClickBook = (bookId) => {
@@ -30,9 +30,7 @@ const ReadingPage = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
     dispatch(getFavorieListAsync());
-    setLoading(false);
   }, [dispatch]);
 
   return (
@@ -40,7 +38,7 @@ const ReadingPage = () => {
       <Typography variant="h3" sx={{ textAlign: "center" }} m={3}>
         Book Store
       </Typography>
-      {loading ? (
+      {status === "loading" ? (
         <Box sx={{ textAlign: "center", color: "primary.main" }}>
           <ClipLoader color="inherit" size={150} loading={true} />
         </Box>
@@ -51,7 +49,7 @@ const ReadingPage = () => {
           justifyContent="space-around"
           flexWrap={"wrap"}
         >
-          {bookStore.favorites.map((book) => (
+          {favorites.map((book) => (
             <Card
               key={book.id}
               sx={{

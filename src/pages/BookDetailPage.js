@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
 import { Container, Button, Box, Grid, Stack, Typography } from "@mui/material";
@@ -12,23 +12,20 @@ import {
 const BACKEND_API = process.env.REACT_APP_BACKEND_API;
 
 const BookDetailPage = () => {
-  const [loading, setLoading] = useState(false);
   const params = useParams();
   const bookId = params.id;
 
   const bookStore = useSelector((state) => state.bookStore);
-  const { bookDetail } = bookStore;
+  const { bookDetail, status } = bookStore;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setLoading(true);
     dispatch(getBookDetailAsync(bookId));
-    setLoading(false);
   }, [dispatch, bookId]);
 
   return (
     <Container>
-      {loading ? (
+      {status === "loading" ? (
         <Box sx={{ textAlign: "center", color: "primary.main" }}>
           <ClipLoader color="#inherit" size={150} loading={true} />
         </Box>

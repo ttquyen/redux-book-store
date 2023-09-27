@@ -27,8 +27,8 @@ const HomePage = () => {
   const limit = 10;
 
   const bookStore = useSelector((state) => state.bookStore);
+  const { books, status } = bookStore;
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
 
   const navigate = useNavigate();
@@ -38,9 +38,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       dispatch(getBookListAsync({ pageNum, limit, query }));
-      setLoading(false);
     };
     fetchData();
   }, [pageNum, limit, query, dispatch]);
@@ -80,7 +78,7 @@ const HomePage = () => {
         />
       </Stack>
       <div>
-        {loading ? (
+        {status === "loading" ? (
           <Box sx={{ textAlign: "center", color: "primary.main" }}>
             <ClipLoader color="inherit" size={150} loading={true} />
           </Box>
@@ -91,7 +89,7 @@ const HomePage = () => {
             justifyContent="space-around"
             flexWrap="wrap"
           >
-            {bookStore.books.map((book) => (
+            {books.map((book) => (
               <Card
                 key={book.id}
                 onClick={() => handleClickBook(book.id)}

@@ -11,7 +11,7 @@ const initialState = {
 
 export const getBookListAsync = createAsyncThunk(
   "bookstore/getBookList",
-  async (pageNum, limit, query) => {
+  async ({ pageNum, limit, query }) => {
     let url = `/books?_page=${pageNum}&_limit=${limit}`;
     if (query) url += `&q=${query}`;
     const response = await api.get(url);

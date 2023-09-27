@@ -37,10 +37,8 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      dispatch(getBookListAsync(pageNum, limit, query));
-    };
-    fetchData();
+    // console.log(pageNum, limit, query);
+    dispatch(getBookListAsync({ pageNum, limit, query }));
   }, [pageNum, limit, query, dispatch]);
   //--------------form
   const defaultValues = {

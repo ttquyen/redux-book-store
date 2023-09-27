@@ -38,7 +38,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(getBookListAsync({ pageNum, limit, query }));
+      dispatch(getBookListAsync(pageNum, limit, query));
     };
     fetchData();
   }, [pageNum, limit, query, dispatch]);

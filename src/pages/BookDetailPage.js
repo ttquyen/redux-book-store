@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { Container, Button, Box, Grid, Stack, Typography } from "@mui/material";
-import api from "../app/apiService";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
@@ -15,7 +13,6 @@ const BACKEND_API = process.env.REACT_APP_BACKEND_API;
 
 const BookDetailPage = () => {
   const [loading, setLoading] = useState(false);
-  // const [book, setBook] = useState(null);
   const params = useParams();
   const bookId = params.id;
 
@@ -24,8 +21,10 @@ const BookDetailPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setLoading(true);
     dispatch(getBookDetailAsync(bookId));
-  }, []);
+    setLoading(false);
+  }, [dispatch, bookId]);
 
   return (
     <Container>

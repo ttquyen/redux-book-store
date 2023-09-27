@@ -20,9 +20,7 @@ import {
 const BACKEND_API = process.env.REACT_APP_BACKEND_API;
 
 const ReadingPage = () => {
-  // const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [removedBookId, setRemovedBookId] = useState("");
   const navigate = useNavigate();
   const bookStore = useSelector((state) => state.bookStore);
   const dispatch = useDispatch();
@@ -31,16 +29,11 @@ const ReadingPage = () => {
     navigate(`/books/${bookId}`);
   };
 
-  const removeBook = (bookId) => {
-    dispatch(removeFavoriteBookAsync(bookId));
-    setRemovedBookId(bookId);
-  };
-
   useEffect(() => {
     setLoading(true);
     dispatch(getFavorieListAsync());
     setLoading(false);
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container>
@@ -92,7 +85,7 @@ const ReadingPage = () => {
                       minWidth: "1.5rem",
                     }}
                     size="small"
-                    onClick={() => removeBook(book.id)}
+                    onClick={() => dispatch(removeFavoriteBookAsync(book.id))}
                   >
                     &times;
                   </Button>
